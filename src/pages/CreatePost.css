@@ -7,18 +7,30 @@
   text-align: center;
 }
 
+.title-large {
+  font-size: 3rem;
+  color: white;
+  text-shadow: 2px 2px 0px var(--text-primary);
+}
+
+.subtitle {
+  color: white;
+  font-weight: 600;
+  text-shadow: 1px 1px 0px var(--text-primary);
+}
+
 .create-form {
   padding: 3rem;
-  border-radius: 4px;
+  border-radius: 24px;
 }
 
 .title-input {
-  font-size: 2.5rem;
-  font-weight: 700;
+  font-size: 2rem;
+  font-weight: 800;
   padding: 1rem 0;
   background: transparent;
   border: none;
-  border-bottom: 2px solid var(--text-primary);
+  border-bottom: 3px dotted #ccc;
   border-radius: 0;
   color: var(--text-primary);
 }
@@ -26,11 +38,11 @@
 .title-input:focus {
   background: transparent;
   box-shadow: none;
-  border-color: #000;
+  border-color: var(--bg-color);
 }
 
 .title-input::placeholder {
-  color: rgba(0, 0, 0, 0.3);
+  color: rgba(0, 0, 0, 0.2);
 }
 
 .image-upload-container {
@@ -46,16 +58,17 @@
   display: block;
   width: 100%;
   padding: 4rem 2rem;
-  border: 2px dashed rgba(0,0,0,0.3);
+  border: 4px dotted #ccc;
   background: rgba(0,0,0,0.02);
   text-align: center;
   cursor: pointer;
   transition: var(--transition);
+  border-radius: 16px;
 }
 
 .upload-placeholder:hover {
-  background: rgba(0,0,0,0.05);
-  border-color: var(--text-primary);
+  background: rgba(134, 201, 19, 0.05);
+  border-color: var(--bg-color);
 }
 
 .upload-content {
@@ -71,7 +84,7 @@
   height: 64px;
   border: 2px solid var(--text-primary);
   border-radius: 50%;
-  background: transparent;
+  background: white;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -82,7 +95,7 @@
   position: absolute;
   bottom: -4px;
   right: -4px;
-  background: var(--foil-bg);
+  background: white;
   border: 2px solid var(--text-primary);
   border-radius: 50%;
   padding: 4px;
@@ -90,7 +103,7 @@
 
 .upload-content h3 {
   font-size: 1.2rem;
-  text-transform: lowercase;
+  font-weight: 800;
 }
 
 .upload-content p {
@@ -101,10 +114,10 @@
 .image-preview {
   position: relative;
   width: 100%;
-  border: 1px solid var(--text-primary);
-  padding: 10px;
-  background: rgba(255,255,255,0.2);
-  box-shadow: inset 2px 2px 5px rgba(0,0,0,0.1);
+  border: 3px solid white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  overflow: hidden;
 }
 
 .image-preview img {
@@ -113,14 +126,12 @@
   max-height: 400px;
   object-fit: cover;
   display: block;
-  filter: grayscale(100%);
-  mix-blend-mode: multiply;
 }
 
 .remove-image {
   position: absolute;
-  top: -10px;
-  right: -10px;
+  top: 10px;
+  right: 10px;
   background: white;
   color: var(--text-primary);
   width: 36px;
@@ -150,8 +161,9 @@
   padding: 1.5rem;
   font-size: 1.1rem;
   line-height: 1.8;
-  background: rgba(255,255,255,0.4);
-  border-radius: 4px;
+  background: rgba(255,255,255,0.6);
+  border-radius: 12px;
+  border: 3px dotted #ccc;
   color: var(--text-primary);
 }
 

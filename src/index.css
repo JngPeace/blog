@@ -1,16 +1,14 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css");
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap'); /* For the handwritten purple text */
 
 :root {
-  --bg-color: #a1c2b5; /* Mint green from the book cover */
-  --text-primary: #3b564b; /* Darker green for text */
-  --text-secondary: #5f8374;
-  --text-deboss: #7a9c8e;
-  --accent-purple: #7a6399; /* Pen ink color */
-  --foil-bg: linear-gradient(135deg, #e8e8e8 0%, #ffffff 35%, #b5b5b5 60%, #dedede 80%, #f4f4f4 100%);
-  --foil-border: #999999;
+  --bg-color: #86c913; /* Vibrant lime/apple green */
+  --text-primary: #1a2e05; /* Dark contrast */
+  --text-secondary: #3f6212;
+  --card-bg: rgba(255, 255, 255, 0.95);
+  --card-border: #ffffff;
+  --accent-silver: linear-gradient(135deg, #ffffff 0%, #cccccc 50%, #999999 100%);
   
-  --transition: all 0.3s ease;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 * {
@@ -20,14 +18,15 @@
 }
 
 body {
-  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+  font-family: 'Pretendard', sans-serif;
   background-color: var(--bg-color);
   color: var(--text-primary);
   line-height: 1.6;
   min-height: 100vh;
   overflow-x: hidden;
-  /* Add a very subtle noise/texture to look like book cover material */
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+  /* Leather texture effect */
+  background-image: 
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
 }
 
 a {
@@ -54,50 +53,48 @@ input, textarea {
 }
 
 .main-content {
-  padding-top: 6rem;
-  padding-bottom: 4rem;
-  min-height: calc(100vh - 6rem);
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+  min-height: calc(100vh - 5rem);
 }
 
 /* Typography */
 h1, h2, h3, h4 {
-  font-weight: 700;
+  font-weight: 800;
   line-height: 1.2;
 }
 
-.deboss-text {
-  color: var(--bg-color);
-  text-shadow: 1px 1px 2px rgba(255,255,255,0.4), -1px -1px 2px rgba(0,0,0,0.15);
-  font-weight: 800;
-  letter-spacing: -1px;
-}
-
-.handwritten {
-  font-family: 'Caveat', cursive;
-  color: var(--accent-purple);
-  font-size: 1.2rem;
-}
-
-/* Foil Card Component */
-.foil-card {
-  background: var(--foil-bg);
-  border: 1px solid var(--foil-border);
+/* Design Elements */
+.silver-stud {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent-silver);
   box-shadow: 
-    3px 5px 15px rgba(0,0,0,0.1), 
-    inset 1px 1px 3px rgba(255,255,255,0.9),
-    inset -1px -1px 3px rgba(0,0,0,0.1);
-  position: relative;
-  overflow: hidden;
+    inset 2px 2px 3px rgba(255,255,255,0.8),
+    inset -2px -2px 3px rgba(0,0,0,0.3),
+    1px 2px 3px rgba(0,0,0,0.2);
+  display: inline-block;
 }
 
-/* Crinkle effect on foil */
-.foil-card::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.05' numOctaves='1' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
-  pointer-events: none;
-  mix-blend-mode: overlay;
+.lace-border {
+  border: 4px dotted white;
+  border-radius: 12px;
+  padding: 4px;
+}
+
+/* Card Style */
+.diary-card {
+  background: var(--card-bg);
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  position: relative;
+  transition: var(--transition);
+}
+
+.diary-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.15);
 }
 
 /* Components */
@@ -106,30 +103,36 @@ h1, h2, h3, h4 {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  background: var(--text-primary);
-  color: var(--bg-color);
-  font-weight: 600;
-  border-radius: 4px;
+  padding: 0.8rem 1.6rem;
+  background: white;
+  color: var(--text-primary);
+  font-weight: 700;
+  border-radius: 30px;
   transition: var(--transition);
   font-size: 1rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  border: 2px dashed #ccc;
 }
 
 .btn:hover {
-  background: #2a3e35;
+  background: var(--text-primary);
+  color: white;
+  border-color: var(--text-primary);
   transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
 .btn-icon {
   padding: 0.5rem;
-  background: rgba(0,0,0,0.05);
-  border-radius: 4px;
+  background: white;
+  border-radius: 50%;
+  color: var(--text-primary);
   transition: var(--transition);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .btn-icon:hover {
-  background: rgba(0,0,0,0.1);
+  background: var(--text-primary);
+  color: white;
 }
 
 /* Form Elements */
@@ -141,30 +144,31 @@ h1, h2, h3, h4 {
   display: block;
   margin-bottom: 0.5rem;
   font-size: 0.95rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text-primary);
 }
 
 .form-control {
   width: 100%;
   padding: 1rem;
-  background: rgba(255, 255, 255, 0.4);
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 4px;
+  background: rgba(255,255,255,0.8);
+  border: 3px dotted #ccc;
+  border-radius: 16px;
   color: var(--text-primary);
-  font-size: 1rem;
+  font-size: 1.05rem;
   transition: var(--transition);
 }
 
 .form-control:focus {
   outline: none;
-  background: rgba(255, 255, 255, 0.6);
-  border-color: var(--text-primary);
+  background: white;
+  border-color: var(--bg-color);
+  box-shadow: 0 0 0 4px rgba(134, 201, 19, 0.2);
 }
 
 /* Animations */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
+  from { opacity: 0; transform: translateY(15px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
