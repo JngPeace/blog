@@ -1,46 +1,105 @@
 .page-header {
-  margin-bottom: 4rem;
+  margin-bottom: 5rem;
   text-align: center;
+  position: relative;
+  padding: 3rem 0;
 }
 
 .title-large {
-  font-size: 3.5rem;
-  margin-bottom: 1rem;
-  letter-spacing: -1px;
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 10;
 }
 
 .subtitle {
-  font-size: 1.2rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.3rem;
   color: var(--text-secondary);
-  max-width: 600px;
-  margin: 0 auto;
+  position: relative;
+  z-index: 10;
 }
 
-.posts-grid {
+/* Decorative scrapbook elements */
+.deco-circle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid var(--text-primary);
+  z-index: 1;
+}
+
+.circle-1 {
+  width: 40px;
+  height: 40px;
+  top: 20%;
+  left: 30%;
+}
+
+.circle-2 {
+  width: 20px;
+  height: 20px;
+  bottom: 10%;
+  right: 25%;
+}
+
+.deco-stamp {
+  position: absolute;
+  top: 10%;
+  right: 15%;
+  font-size: 5rem;
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.05);
+  transform: rotate(15deg);
+  z-index: 0;
+  border: 4px solid rgba(0, 0, 0, 0.05);
+  padding: 0 1rem;
+}
+
+.posts-scatter-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 3rem;
+  padding-bottom: 4rem;
 }
 
 .post-card {
-  border-radius: 20px;
-  overflow: hidden;
-  transition: var(--transition);
+  border-radius: 0; /* Sharp corners for paper look */
+  overflow: visible; /* To allow overlapping borders */
   display: flex;
   flex-direction: column;
+  position: relative;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+/* Creating a layered paper effect under the card */
+.post-card::before {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  right: -5px;
+  bottom: -5px;
+  background: rgba(236, 72, 153, 0.1); /* Soft pink layer */
+  border: 2px solid var(--text-primary);
+  z-index: -1;
+  transition: var(--transition);
 }
 
 .post-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-  border-color: rgba(99, 102, 241, 0.3);
+  transform: translateY(-5px) !important; /* Override inline random rotation on hover */
+}
+
+.post-card:hover::before {
+  transform: translate(3px, 3px);
 }
 
 .post-image-container {
   position: relative;
   width: 100%;
-  padding-top: 60%; /* 16:9 Aspect Ratio */
-  overflow: hidden;
+  padding-top: 65%;
+  border-bottom: 2px solid var(--text-primary);
 }
 
 .post-image {
@@ -50,18 +109,14 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: grayscale(20%) contrast(1.1); /* Slightly vintage/artistic look */
 }
 
-.post-card:hover .post-image {
-  transform: scale(1.05);
-}
-
-.post-overlay {
+.image-frame-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, transparent, rgba(15, 17, 26, 0.8));
-  opacity: 0.6;
+  border: 10px solid rgba(255, 255, 255, 0.4);
+  pointer-events: none;
 }
 
 .post-content {
@@ -76,21 +131,18 @@
   align-items: center;
   gap: 0.5rem;
   font-size: 0.85rem;
+  font-weight: 600;
   color: var(--text-secondary);
   margin-bottom: 1rem;
-}
-
-.date {
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .post-title {
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   margin-bottom: 0.75rem;
   color: var(--text-primary);
-  line-height: 1.3;
+  line-height: 1.2;
 }
 
 .post-excerpt {
@@ -98,24 +150,24 @@
   font-size: 0.95rem;
   margin-bottom: 1.5rem;
   flex: 1;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 
 .read-more {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  color: var(--accent-color);
-  font-weight: 600;
+  color: var(--text-primary);
+  font-weight: 700;
   font-size: 0.95rem;
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--text-primary);
+  padding-bottom: 2px;
+  align-self: flex-start;
   transition: var(--transition);
-  margin-top: auto;
 }
 
 .read-more:hover {
-  color: var(--accent-hover);
+  color: var(--accent-color);
+  border-color: var(--accent-color);
   gap: 0.75rem;
 }
