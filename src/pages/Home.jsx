@@ -1,29 +1,42 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Clock, ArrowRight } from 'lucide-react';
+import { supabase } from '../supabaseClient';
 import './Home.css';
 
-// Mock data until Supabase is connected
-const MOCK_POSTS = [
-  {
-    id: 1,
-    title: 'The Future of Web Design',
-    excerpt: 'Exploring the new trends in UI/UX including glassmorphism, neo-brutalism, and how AI is shaping the future of digital experiences.',
-    imageUrl: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=800',
-    date: 'Oct 12, 2026',
-    author: 'Peace'
-  },
-  {
-    id: 2,
-    title: 'Getting Started with Supabase',
-    excerpt: 'A comprehensive guide to setting up your first project with Supabase, covering authentication, database rules, and edge functions.',
-    imageUrl: 'https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?auto=format&fit=crop&q=80&w=800',
-    date: 'Oct 10, 2026',
-    author: 'Peace'
-  }
-];
-
 const Home = () => {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
+  const fetchPosts = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('posts')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      setPosts(data || []);
+    } catch (error) {
+      console.error('Error fetching posts:', error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString('en-US', options);
+  };
+
+  if (loading) {
+    return <div className="container" style={{ textAlign: 'center', marginTop: '5rem' }}>Loading posts...</div>;
+  }
+
   return (
     <div className="container animate-fade-in">
       <header className="page-header">
@@ -32,25 +45,29 @@ const Home = () => {
       </header>
 
       <div className="posts-grid">
-        {MOCK_POSTS.map(post => (
+        {posts.map(post => (
           <article key={post.id} className="glass post-card">
-            <div className="post-image-container">
-              <img src={post.imageUrl} alt={post.title} className="post-image" />
-              <div className="post-overlay"></div>
-            </div>
+            {post.image_url && (
+              <div className="post-image-container">
+                <img src={post.image_url} alt={post.title} className="post-image" />
+                <div className="post-overlay"></div>
+              </div>
+            )}
             
             <div className="post-content">
               <div className="post-meta">
-                <span className="author">{post.author}</span>
+                <span className="author">{post.author || 'Anonymous'}</span>
                 <span className="dot">•</span>
                 <span className="date">
                   <Clock size={14} />
-                  {post.date}
+                  {formatDate(post.created_at)}
                 </span>
               </div>
               
               <h2 className="post-title">{post.title}</h2>
-              <p className="post-excerpt">{post.excerpt}</p>
+              <p className="post-excerpt">
+                {post.content.length > 100 ? post.content.substring(0, 100) + '...' : post.content}
+              </p>
               
               <Link to={`/post/${post.id}`} className="read-more">
                 Read Article <ArrowRight size={16} />
@@ -58,6 +75,11 @@ const Home = () => {
             </div>
           </article>
         ))}
+        {posts.length === 0 && (
+          <div style={{ textAlign: 'center', gridColumn: '1 / -1' }}>
+            <p>No posts yet. Be the first to write one!</p>
+          </div>
+        )}
       </div>
     </div>
   );

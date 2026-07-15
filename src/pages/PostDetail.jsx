@@ -1,42 +1,54 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Clock, User } from 'lucide-react';
+import { supabase } from '../supabaseClient';
 import './PostDetail.css';
-
-// Using the same mock data for now
-const MOCK_POSTS = {
-  '1': {
-    title: 'The Future of Web Design',
-    content: `The landscape of web design is constantly evolving. In recent years, we've seen a shift towards more immersive and dynamic experiences. 
-
-Glassmorphism, a trend that mimics frosted glass, has become incredibly popular for its ability to add depth and hierarchy to interfaces without cluttering them. Combined with vibrant colors and subtle micro-animations, it creates a sense of modernity and premium quality.
-
-Another significant trend is the integration of AI-driven personalization, where the UI adapts to individual user preferences in real-time. As we move forward, the focus will increasingly be on creating not just functional websites, but engaging digital environments that leave a lasting impression.`,
-    imageUrl: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=1200',
-    date: 'Oct 12, 2026',
-    author: 'Peace'
-  },
-  '2': {
-    title: 'Getting Started with Supabase',
-    content: `Supabase has emerged as a powerful open-source alternative to Firebase, offering a complete backend-as-a-service solution built on top of PostgreSQL.
-
-In this guide, we'll explore how to set up your first Supabase project. The process is remarkably straightforward: you create an organization, start a project, and instantly get access to a full-fledged Postgres database, complete with a RESTful API automatically generated using PostgREST.
-
-One of the most compelling features of Supabase is its robust authentication system, which seamlessly integrates with your database rules (Row Level Security), ensuring your data remains secure while being easily accessible to authenticated users.`,
-    imageUrl: 'https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?auto=format&fit=crop&q=80&w=1200',
-    date: 'Oct 10, 2026',
-    author: 'Peace'
-  }
-};
 
 const PostDetail = () => {
   const { id } = useParams();
-  const post = MOCK_POSTS[id] || {
-    title: 'Post Not Found',
-    content: 'The post you are looking for does not exist.',
-    date: '',
-    author: ''
+  const [post, setPost] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchPost();
+  }, [id]);
+
+  const fetchPost = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('posts')
+        .select('*')
+        .eq('id', id)
+        .single();
+
+      if (error) throw error;
+      setPost(data);
+    } catch (error) {
+      console.error('Error fetching post:', error.message);
+    } finally {
+      setLoading(false);
+    }
   };
+
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString('en-US', options);
+  };
+
+  if (loading) {
+    return <div className="container" style={{ textAlign: 'center', marginTop: '5rem' }}>Loading post...</div>;
+  }
+
+  if (!post) {
+    return (
+      <div className="container" style={{ textAlign: 'center', marginTop: '5rem' }}>
+        <h2>Post Not Found</h2>
+        <Link to="/" className="back-link" style={{ marginTop: '1rem' }}>
+          <ArrowLeft size={18} /> Back to Feed
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <article className="post-detail-container animate-fade-in">
@@ -47,9 +59,9 @@ const PostDetail = () => {
         </Link>
       </div>
 
-      {post.imageUrl && (
+      {post.image_url && (
         <div className="hero-image-container">
-          <img src={post.imageUrl} alt={post.title} className="hero-image" />
+          <img src={post.image_url} alt={post.title} className="hero-image" />
           <div className="hero-overlay"></div>
         </div>
       )}
@@ -59,20 +71,23 @@ const PostDetail = () => {
           <div className="meta-info">
             <span className="meta-item">
               <User size={16} />
-              {post.author}
+              {post.author || 'Anonymous'}
             </span>
             <span className="dot">•</span>
             <span className="meta-item">
               <Clock size={16} />
-              {post.date}
+              {formatDate(post.created_at)}
             </span>
           </div>
           <h1 className="detail-title">{post.title}</h1>
         </header>
 
         <div className="detail-body">
-          {post.content.split('\n\n').map((paragraph, index) => (
-            <p key={index}>{paragraph}</p>
+          {post.content.split('\n').map((paragraph, index) => (
+            <React.Fragment key={index}>
+              {paragraph}
+              <br />
+            </React.Fragment>
           ))}
         </div>
       </div>
