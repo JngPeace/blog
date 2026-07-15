@@ -35,18 +35,7 @@
   filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.8));
 }
 
-.charm-accent {
-  position: absolute;
-  bottom: -20px;
-  right: 15%;
-  animation: swing 3s ease-in-out infinite alternate;
-  transform-origin: top center;
-}
 
-@keyframes swing {
-  0% { transform: rotate(-10deg); }
-  100% { transform: rotate(10deg); }
-}
 
 .cards-grid {
   display: grid;
