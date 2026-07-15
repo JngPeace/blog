@@ -1,15 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Space+Grotesk:wght@400;600;700&display=swap');
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css");
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap'); /* For the handwritten purple text */
 
 :root {
-  --bg-color: #f4f4f5;
-  --text-primary: #000000;
-  --text-secondary: #3f3f46;
-  --accent-color: #ec4899; /* Soft Pink from the book edges */
-  --card-bg: rgba(255, 255, 255, 0.85);
-  --card-border: #000000;
-  --glass-bg: rgba(255, 255, 255, 0.7);
+  --bg-color: #a1c2b5; /* Mint green from the book cover */
+  --text-primary: #3b564b; /* Darker green for text */
+  --text-secondary: #5f8374;
+  --text-deboss: #7a9c8e;
+  --accent-purple: #7a6399; /* Pen ink color */
+  --foil-bg: linear-gradient(135deg, #e8e8e8 0%, #ffffff 35%, #b5b5b5 60%, #dedede 80%, #f4f4f4 100%);
+  --foil-border: #999999;
   
-  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition: all 0.3s ease;
 }
 
 * {
@@ -19,17 +20,14 @@
 }
 
 body {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
   background-color: var(--bg-color);
   color: var(--text-primary);
   line-height: 1.6;
   min-height: 100vh;
   overflow-x: hidden;
-  background-image: 
-    radial-gradient(#d4d4d8 1.5px, transparent 1.5px),
-    radial-gradient(#d4d4d8 1.5px, transparent 1.5px);
-  background-size: 30px 30px;
-  background-position: 0 0, 15px 15px; /* Subtle dot grid paper effect */
+  /* Add a very subtle noise/texture to look like book cover material */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
 }
 
 a {
@@ -48,23 +46,9 @@ input, textarea {
   font-family: inherit;
 }
 
-/* Glass & Paper Layers */
-.glass {
-  background: var(--card-bg);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 2px solid var(--card-border);
-  box-shadow: 6px 6px 0px rgba(0,0,0,0.1);
-}
-
-.glass-nav {
-  background: rgba(255, 255, 255, 0.9);
-  border-bottom: 2px solid var(--card-border);
-}
-
 /* Layout */
 .container {
-  max-width: 1100px;
+  max-width: 1000px;
   margin: 0 auto;
   padding: 0 1.5rem;
 }
@@ -77,30 +61,43 @@ input, textarea {
 
 /* Typography */
 h1, h2, h3, h4 {
-  font-family: 'Cormorant Garamond', serif;
   font-weight: 700;
   line-height: 1.2;
 }
 
-.text-gradient {
-  color: var(--text-primary);
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: 1.5em;
-  font-weight: 700;
+.deboss-text {
+  color: var(--bg-color);
+  text-shadow: 1px 1px 2px rgba(255,255,255,0.4), -1px -1px 2px rgba(0,0,0,0.15);
+  font-weight: 800;
+  letter-spacing: -1px;
 }
 
-/* Stamp letters */
-.stamp-letter {
-  display: inline-block;
-  border: 2px solid var(--text-primary);
-  padding: 0.2rem 0.6rem;
-  margin: 0 0.2rem;
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 700;
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: 2px 2px 0px var(--text-primary);
-  transform: rotate(calc(var(--rotate, 0) * 1deg));
+.handwritten {
+  font-family: 'Caveat', cursive;
+  color: var(--accent-purple);
+  font-size: 1.2rem;
+}
+
+/* Foil Card Component */
+.foil-card {
+  background: var(--foil-bg);
+  border: 1px solid var(--foil-border);
+  box-shadow: 
+    3px 5px 15px rgba(0,0,0,0.1), 
+    inset 1px 1px 3px rgba(255,255,255,0.9),
+    inset -1px -1px 3px rgba(0,0,0,0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Crinkle effect on foil */
+.foil-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.05' numOctaves='1' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  mix-blend-mode: overlay;
 }
 
 /* Components */
@@ -109,36 +106,30 @@ h1, h2, h3, h4 {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0.6rem 1.2rem;
-  border: 2px solid var(--text-primary);
-  background: white;
-  color: var(--text-primary);
-  font-weight: 700;
+  padding: 0.75rem 1.5rem;
+  background: var(--text-primary);
+  color: var(--bg-color);
+  font-weight: 600;
+  border-radius: 4px;
   transition: var(--transition);
   font-size: 1rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
 }
 
-.btn-primary {
-  box-shadow: 3px 3px 0px var(--accent-color);
-}
-
-.btn-primary:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 5px 5px 0px var(--accent-color);
+.btn:hover {
+  background: #2a3e35;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
 .btn-icon {
   padding: 0.5rem;
-  border: 2px solid var(--text-primary);
-  background: white;
+  background: rgba(0,0,0,0.05);
+  border-radius: 4px;
   transition: var(--transition);
 }
 
 .btn-icon:hover {
-  background: var(--text-primary);
-  color: white;
+  background: rgba(0,0,0,0.1);
 }
 
 /* Form Elements */
@@ -149,15 +140,17 @@ h1, h2, h3, h4 {
 .input-group label {
   display: block;
   margin-bottom: 0.5rem;
-  font-size: 0.9rem;
-  font-weight: 700;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
 }
 
 .form-control {
   width: 100%;
   padding: 1rem;
-  background: white;
-  border: 2px solid var(--text-primary);
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
   color: var(--text-primary);
   font-size: 1rem;
   transition: var(--transition);
@@ -165,8 +158,8 @@ h1, h2, h3, h4 {
 
 .form-control:focus {
   outline: none;
-  box-shadow: 4px 4px 0px rgba(0,0,0,0.1);
-  transform: translate(-2px, -2px);
+  background: rgba(255, 255, 255, 0.6);
+  border-color: var(--text-primary);
 }
 
 /* Animations */

@@ -9,28 +9,28 @@
 
 .create-form {
   padding: 3rem;
-  border-radius: 0;
+  border-radius: 4px;
 }
 
 .title-input {
   font-size: 2.5rem;
-  font-family: 'Cormorant Garamond', serif;
   font-weight: 700;
   padding: 1rem 0;
   background: transparent;
   border: none;
   border-bottom: 2px solid var(--text-primary);
   border-radius: 0;
+  color: var(--text-primary);
 }
 
 .title-input:focus {
-  background: rgba(255, 255, 255, 0.5);
+  background: transparent;
   box-shadow: none;
-  transform: none;
+  border-color: #000;
 }
 
 .title-input::placeholder {
-  color: rgba(0, 0, 0, 0.2);
+  color: rgba(0, 0, 0, 0.3);
 }
 
 .image-upload-container {
@@ -46,16 +46,16 @@
   display: block;
   width: 100%;
   padding: 4rem 2rem;
-  border: 2px dashed var(--text-primary);
-  background: rgba(255, 255, 255, 0.5);
+  border: 2px dashed rgba(0,0,0,0.3);
+  background: rgba(0,0,0,0.02);
   text-align: center;
   cursor: pointer;
   transition: var(--transition);
 }
 
 .upload-placeholder:hover {
-  background: rgba(255, 255, 255, 1);
-  box-shadow: 4px 4px 0px rgba(0,0,0,0.1);
+  background: rgba(0,0,0,0.05);
+  border-color: var(--text-primary);
 }
 
 .upload-content {
@@ -71,7 +71,7 @@
   height: 64px;
   border: 2px solid var(--text-primary);
   border-radius: 50%;
-  background: white;
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -82,7 +82,7 @@
   position: absolute;
   bottom: -4px;
   right: -4px;
-  background: white;
+  background: var(--foil-bg);
   border: 2px solid var(--text-primary);
   border-radius: 50%;
   padding: 4px;
@@ -90,8 +90,7 @@
 
 .upload-content h3 {
   font-size: 1.2rem;
-  font-family: 'Space Grotesk', sans-serif;
-  text-transform: uppercase;
+  text-transform: lowercase;
 }
 
 .upload-content p {
@@ -102,10 +101,10 @@
 .image-preview {
   position: relative;
   width: 100%;
-  border: 2px solid var(--text-primary);
-  background: white;
+  border: 1px solid var(--text-primary);
   padding: 10px;
-  box-shadow: 6px 6px 0px rgba(0,0,0,0.1);
+  background: rgba(255,255,255,0.2);
+  box-shadow: inset 2px 2px 5px rgba(0,0,0,0.1);
 }
 
 .image-preview img {
@@ -114,7 +113,8 @@
   max-height: 400px;
   object-fit: cover;
   display: block;
-  filter: grayscale(10%);
+  filter: grayscale(100%);
+  mix-blend-mode: multiply;
 }
 
 .remove-image {
@@ -150,16 +150,12 @@
   padding: 1.5rem;
   font-size: 1.1rem;
   line-height: 1.8;
-  background: rgba(255, 255, 255, 0.7);
-  border-radius: 0;
+  background: rgba(255,255,255,0.4);
+  border-radius: 4px;
+  color: var(--text-primary);
 }
 
 .form-actions {
   display: flex;
   justify-content: flex-end;
-}
-
-.submit-btn {
-  padding: 1rem 2.5rem;
-  font-size: 1.1rem;
 }

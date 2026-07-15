@@ -84,7 +84,7 @@ const CreatePost = () => {
         <p className="subtitle">Share your thoughts, experiences, and ideas with the world.</p>
       </div>
 
-      <form className="glass create-form" onSubmit={handleSubmit}>
+      <form className="foil-card create-form" onSubmit={handleSubmit}>
         <div className="input-group">
           <input
             type="text"

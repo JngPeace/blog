@@ -1,17 +1,15 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { PenSquare, Sparkles, Home } from 'lucide-react';
 import './Navbar.css';
 
 const Navbar = () => {
   const location = useLocation();
 
   return (
-    <nav className="glass-nav navbar">
+    <nav className="navbar">
       <div className="container nav-container">
         <Link to="/" className="nav-logo">
-          <Sparkles className="logo-icon" size={24} />
-          <span className="text-gradient">Lumina</span>
+          lumina
         </Link>
         
         <div className="nav-links">
@@ -19,12 +17,10 @@ const Navbar = () => {
             to="/" 
             className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}
           >
-            <Home size={18} />
-            <span>Feed</span>
+            diary
           </Link>
-          <Link to="/create" className="btn btn-primary">
-            <PenSquare size={18} />
-            <span>Write</span>
+          <Link to="/create" className="btn">
+            write
           </Link>
         </div>
       </div>
